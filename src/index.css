@@ -1,0 +1,21 @@
+#root {
+  width: 882px;
+}
+
+.body {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 882px;
+  margin: auto;
+}
+
+@media screen and (max-width: 767px) {
+  .body {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+  }
+}
