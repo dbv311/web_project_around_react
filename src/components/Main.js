@@ -6,15 +6,6 @@ import "../blocks/element.css";
 import Card from "./Card";
 
 function Main({ handleEditProfile, cards, currentUser }) {
-  /*const popupOpen = document.querySelector(".popup_avatar");
-  popupOpen.addEventListener("click", () => {
-    handleEditAvatarClick = true;
-  });*/
-
-  /*let handleEditAvatarClick = ;
-  let handleEditProfileClick = ;
-  let handleAddPlaceClick = ;*/
-
   return (
     <main className="main">
       <section className="profile">
@@ -86,24 +77,6 @@ function Main({ handleEditProfile, cards, currentUser }) {
               className="popup__close-icon"
             ></button>
             <h2 className="popup__edit">Nuevo Lugar</h2>
-            <input
-              type="text"
-              minlength="2"
-              maxlength="30"
-              className="popup__input popup__input-place"
-              placeholder="Titulo"
-              name="place"
-              required
-            />
-            <span className="popup__error popup__error_type_place"></span>
-            <input
-              type="url"
-              className="popup__input popup__input-link"
-              placeholder="Enlace a la imagen"
-              name="link"
-              required
-            />
-            <span className="popup__error popup__error_type_link"></span>
             <button type="submit" className="popup__button">
               Crear
             </button>

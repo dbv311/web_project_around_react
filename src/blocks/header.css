@@ -21,7 +21,7 @@
 
   .header__logo {
     display: block;
-    margin: 30px;
+    margin: 30px auto;
   }
 
   .header__divider {

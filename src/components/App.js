@@ -7,22 +7,33 @@ import { api } from "../utils/api";
 
 function App() {
   const [isPopupProfileOpen, setPopupProfileOpen] = React.useState(false);
+  const [isPopupAddCard, setPopupAddCard] = React.useState(false);
 
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
 
   const closeAllPopups = () => {
     setPopupProfileOpen(false);
+    setPopupAddCard(false);
   };
 
   const handleEditProfile = () => {
     setPopupProfileOpen(true);
   };
 
+  const handleAddCard = () => {
+    setPopupAddCard(true);
+  };
+
   const onSubmitEditProfile = ({ name, about }) => {
     return api.updateUser(name, about).then((user) => {
       setCurrentUser(user);
+      setPopupProfileOpen(false);
     });
+  };
+
+  const onSubmitAddCard = ({ name, link }) => {
+    return api.postCards(name, link).then(cards);
   };
 
   React.useEffect(() => {
@@ -39,6 +50,7 @@ function App() {
       <Header />
       <Main
         handleEditProfile={handleEditProfile}
+        handleAddCard={handleAddCard}
         cards={cards}
         currentUser={currentUser}
       />
@@ -74,6 +86,32 @@ function App() {
           />
           <span className="popup__error popup__error_type_about"></span>
         </>
+      </PopupWithForm>
+      <PopupWithForm
+        title="Nuevo Lugar"
+        handleClose={closeAllPopups}
+        classId={"popup_place"}
+        open={isPopupAddCard}
+        onSubmit={onSubmitAddCard}
+      >
+        <input
+          type="text"
+          minlength="2"
+          maxlength="30"
+          className="popup__input popup__input-place"
+          placeholder="Titulo"
+          name="place"
+          required
+        />
+        <span className="popup__error popup__error_type_place"></span>
+        <input
+          type="url"
+          className="popup__input popup__input-link"
+          placeholder="Enlace a la imagen"
+          name="link"
+          required
+        />
+        <span className="popup__error popup__error_type_link"></span>
       </PopupWithForm>
     </div>
   );
