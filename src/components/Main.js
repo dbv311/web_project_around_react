@@ -3,16 +3,17 @@ import "../blocks/profile.css";
 import "../blocks/popup.css";
 import "../blocks/elements.css";
 import "../blocks/element.css";
+import Card from "./Card";
 
-function Main() {
+function Main({ handleEditProfile, cards, currentUser }) {
   /*const popupOpen = document.querySelector(".popup_avatar");
   popupOpen.addEventListener("click", () => {
     handleEditAvatarClick = true;
   });*/
 
-  /*let handleEditAvatarClick = false;
-  let handleEditProfileClick = false;
-  let handleAddPlaceClick = false;*/
+  /*let handleEditAvatarClick = ;
+  let handleEditProfileClick = ;
+  let handleAddPlaceClick = ;*/
 
   return (
     <main className="main">
@@ -23,57 +24,34 @@ function Main() {
             id="editbuttonavatar"
           ></button>
           <img
-            src={avatar}
+            src={currentUser.avatar || avatar}
             alt="Jacques Cousteau, explorador"
             className="profile__avatar"
           />
         </div>
         <div className="profile__info">
-          <button className="profile__edit-button" id="editbutton"></button>
-          <p className="profile__text">Explorador</p>
-          <h1 className="profile__title">Jacques Cousteau</h1>
+          <button
+            className="profile__edit-button"
+            id="editbutton"
+            onClick={handleEditProfile}
+          ></button>
+          <p className="profile__text">{currentUser.about}</p>
+          <h1 className="profile__title">{currentUser.name}</h1>
         </div>
         <button className="profile__add-button" id="addbutton"></button>
       </section>
-      <section className="elements"></section>
-      <div className="popup popup_profile">
-        <div className="popup__overlay"></div>
-        <div className="popup__content">
-          <form id="popupaddprofile" className="popup__form">
-            <button
-              type="button"
-              id="closeicon"
-              className="popup__close-icon"
-            ></button>
-            <h2 className="popup__edit">Editar perfil</h2>
-            <input
-              type="text"
-              minlength="2"
-              maxlength="40"
-              className="popup__input popup__input-name"
-              placeholder="Nombre"
-              value="Jacques Cousteau"
-              name="name"
-              required
-            />
-            <span className="popup__error popup__error_type_name"></span>
-            <input
-              type="text"
-              minlength="2"
-              maxlength="200"
-              className="popup__input popup__input-about"
-              placeholder="Acerca de mi"
-              value="Explorador"
-              name="about"
-              required
-            />
-            <span className="popup__error popup__error_type_about"></span>
-            <button type="submit" className="popup__button">
-              Guardar
-            </button>
-          </form>
-        </div>
-      </div>
+      <section className="elements">
+        {cards.map((item, index) => (
+          <Card
+            key={index}
+            name={item.name}
+            link={item.link}
+            user={currentUser}
+            _id={item._id}
+            likes={item.likes}
+          />
+        ))}
+      </section>
       <div className="popup popup_avatar">
         <div className="popup__overlay"></div>
         <div className="popup__content popup__content_avatar">
