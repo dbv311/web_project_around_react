@@ -9,7 +9,9 @@ export default function PopupWithForm({
   const handleSubmit = (event) => {
     event.preventDefault();
     const inputValues = getInputValues(event.target);
-    onSubmit(inputValues);
+    onSubmit(inputValues).then(() => {
+      event.target.reset();
+    });
   };
 
   const getInputValues = (form) => {

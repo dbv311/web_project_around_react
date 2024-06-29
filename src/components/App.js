@@ -15,13 +15,18 @@ function App() {
   const closeAllPopups = () => {
     setPopupProfileOpen(false);
     setPopupAddCard(false);
+    document.removeEventListener("keypress", handleEscPress);
   };
 
   const handleEditProfile = () => {
     setPopupProfileOpen(true);
+    addHandleEscPress();
+    document.querySelector(".popup__input-name").value = currentUser.name;
+    document.querySelector(".popup__input-about").value = currentUser.about;
   };
 
   const handleAddCard = () => {
+    addHandleEscPress();
     setPopupAddCard(true);
   };
 
@@ -33,7 +38,19 @@ function App() {
   };
 
   const onSubmitAddCard = ({ name, link }) => {
-    return api.postCards(name, link).then(cards);
+    return api.postCards(name, link).then((card) => {
+      setCards([card, ...cards]);
+    });
+  };
+
+  const addHandleEscPress = () => {
+    document.addEventListener("keydown", handleEscPress);
+  };
+
+  const handleEscPress = (evt) => {
+    if (evt.key === "Escape") {
+      closeAllPopups();
+    }
   };
 
   React.useEffect(() => {
@@ -100,7 +117,7 @@ function App() {
           maxlength="30"
           className="popup__input popup__input-place"
           placeholder="Titulo"
-          name="place"
+          name="name"
           required
         />
         <span className="popup__error popup__error_type_place"></span>

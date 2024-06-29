@@ -5,7 +5,7 @@ import "../blocks/elements.css";
 import "../blocks/element.css";
 import Card from "./Card";
 
-function Main({ handleEditProfile, cards, currentUser }) {
+function Main({ handleEditProfile, cards, currentUser, handleAddCard }) {
   return (
     <main className="main">
       <section className="profile">
@@ -29,7 +29,11 @@ function Main({ handleEditProfile, cards, currentUser }) {
           <p className="profile__text">{currentUser.about}</p>
           <h1 className="profile__title">{currentUser.name}</h1>
         </div>
-        <button className="profile__add-button" id="addbutton"></button>
+        <button
+          className="profile__add-button"
+          id="addbutton"
+          onClick={handleAddCard}
+        ></button>
       </section>
       <section className="elements">
         {cards.map((item, index) => (
@@ -40,6 +44,7 @@ function Main({ handleEditProfile, cards, currentUser }) {
             user={currentUser}
             _id={item._id}
             likes={item.likes}
+            owner={item.owner}
           />
         ))}
       </section>
