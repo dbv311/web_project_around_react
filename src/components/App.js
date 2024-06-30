@@ -11,7 +11,7 @@ function App() {
   const [isPopupAddPlace, setPopupAddPlace] = React.useState(false);
   const [isPopupEditAvatar, setPopupEditAvatar] = React.useState(false);
   const [isPopupDeleteCard, setPopupDeleteCard] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState({});
+  const [selectedCard, setSelectedCard] = React.useState(false);
 
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
@@ -47,8 +47,8 @@ function App() {
     addHandleEscPress();
   };
 
-  const handleCardClick = (card) => {
-    setSelectedCard(card);
+  const handleCardClick = () => {
+    setSelectedCard(true);
     addHandleEscPress();
   };
 
@@ -106,7 +106,7 @@ function App() {
         handleEditProfile={handleEditProfile}
         handleAddPlace={handleAddPlace}
         handleDeleteCard={handleDeleteCard}
-        selectedCard={handleCardClick}
+        handleCardClick={handleCardClick}
         cards={cards}
         currentUser={currentUser}
       />
@@ -200,6 +200,7 @@ function App() {
         classId={"popup_card"}
         handleClose={closeAllPopups}
         selectedCard={handleCardClick}
+        open={selectedCard}
       />
     </div>
   );

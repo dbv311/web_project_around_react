@@ -19,7 +19,7 @@ export default function Card({
   };
 
   function handleClick() {
-    onCardClick();
+    props.onCardClick(props.card);
   }
 
   return (
