@@ -5,6 +5,7 @@ export default function PopupWithForm({
   title,
   children,
   onSubmit,
+  buttonTitle,
 }) {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -38,7 +39,7 @@ export default function PopupWithForm({
           <h2 className="popup__edit">{title}</h2>
           {children}
           <button type="submit" className="popup__button">
-            Guardar
+            {buttonTitle}
           </button>
         </form>
       </div>

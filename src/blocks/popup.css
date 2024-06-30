@@ -1,5 +1,4 @@
 .popup {
-  background-color: white;
   border-radius: 2%;
   display: flex;
   justify-content: center;
@@ -8,6 +7,8 @@
   opacity: 0;
   visibility: hidden;
   transition: all 200ms ease;
+  width: 100%;
+  left: 0;
 }
 
 .popup__overlay {
@@ -31,6 +32,7 @@
 
 .popup__form {
   display: flex;
+  width: 430px;
   height: 330px;
   flex-direction: column;
   justify-content: space-around;
@@ -50,7 +52,7 @@
   height: 40px;
   width: 40px;
   top: -40px;
-  right: -40px;
+  right: calc(50% - 252px);
   cursor: pointer;
   border: none;
 }
@@ -184,22 +186,10 @@
 
 .popup_confirmation {
   width: 430px;
-  height: 181px;
 }
 
 .popup__form_confirmation {
   width: 430px;
-  height: 181px;
-}
-
-.popup_avatar {
-  width: 430px;
-  height: 272px;
-}
-
-.popup__form_avatar {
-  width: 430px;
-  height: 272px;
 }
 
 .popup__input-avatar {

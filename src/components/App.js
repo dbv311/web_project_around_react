@@ -4,17 +4,24 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import React from "react";
 import { api } from "../utils/api";
+import ImagePopup from "./ImagePopup";
 
 function App() {
   const [isPopupProfileOpen, setPopupProfileOpen] = React.useState(false);
-  const [isPopupAddCard, setPopupAddCard] = React.useState(false);
+  const [isPopupAddPlace, setPopupAddPlace] = React.useState(false);
+  const [isPopupEditAvatar, setPopupEditAvatar] = React.useState(false);
+  const [isPopupDeleteCard, setPopupDeleteCard] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
 
   const closeAllPopups = () => {
     setPopupProfileOpen(false);
-    setPopupAddCard(false);
+    setPopupAddPlace(false);
+    setPopupEditAvatar(false);
+    setPopupDeleteCard(false);
+    setSelectedCard(false);
     document.removeEventListener("keypress", handleEscPress);
   };
 
@@ -25,9 +32,30 @@ function App() {
     document.querySelector(".popup__input-about").value = currentUser.about;
   };
 
-  const handleAddCard = () => {
+  const handleAddPlace = () => {
     addHandleEscPress();
-    setPopupAddCard(true);
+    setPopupAddPlace(true);
+  };
+
+  const handleEditAvatar = () => {
+    setPopupEditAvatar(true);
+    addHandleEscPress();
+  };
+
+  const handleDeleteCard = () => {
+    setPopupDeleteCard(true);
+    addHandleEscPress();
+  };
+
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+    addHandleEscPress();
+  };
+
+  const onSubmitDeleteCard = (cardId) => {
+    return api.deleteCard(cardId).then(() => {
+      setPopupDeleteCard(true);
+    });
   };
 
   const onSubmitEditProfile = ({ name, about }) => {
@@ -37,9 +65,17 @@ function App() {
     });
   };
 
-  const onSubmitAddCard = ({ name, link }) => {
+  const onSubmitAddPlace = ({ name, link }) => {
     return api.postCards(name, link).then((card) => {
       setCards([card, ...cards]);
+      setPopupAddPlace(false);
+    });
+  };
+
+  const onSubmitEditAvatar = ({ avatar }) => {
+    return api.updateAvatar(avatar).then((user) => {
+      setCurrentUser(user);
+      setPopupEditAvatar(false);
     });
   };
 
@@ -66,18 +102,39 @@ function App() {
     <div className="page">
       <Header />
       <Main
+        handleEditAvatar={handleEditAvatar}
         handleEditProfile={handleEditProfile}
-        handleAddCard={handleAddCard}
+        handleAddPlace={handleAddPlace}
+        handleDeleteCard={handleDeleteCard}
+        selectedCard={handleCardClick}
         cards={cards}
         currentUser={currentUser}
       />
       <Footer />
+      <PopupWithForm
+        title="Cambiar foto de perfil"
+        handleClose={closeAllPopups}
+        classId={"popup_avatar"}
+        open={isPopupEditAvatar}
+        onSubmit={onSubmitEditAvatar}
+        buttonTitle="Guardar"
+      >
+        <input
+          type="url"
+          className="popup__input popup__input-avatar"
+          placeholder="Enlace a la imagen"
+          name="avatar"
+          required
+        />
+        <span className="popup__error popup__error_type_link"></span>
+      </PopupWithForm>
       <PopupWithForm
         title="Editar Perfil"
         handleClose={closeAllPopups}
         classId={"popup_profile"}
         open={isPopupProfileOpen}
         onSubmit={onSubmitEditProfile}
+        buttonTitle="Guardar"
       >
         <>
           <input
@@ -108,13 +165,14 @@ function App() {
         title="Nuevo Lugar"
         handleClose={closeAllPopups}
         classId={"popup_place"}
-        open={isPopupAddCard}
-        onSubmit={onSubmitAddCard}
+        open={isPopupAddPlace}
+        onSubmit={onSubmitAddPlace}
+        buttonTitle="Guardar"
       >
         <input
           type="text"
-          minlength="2"
-          maxlength="30"
+          minLength="2"
+          maxLength="30"
           className="popup__input popup__input-place"
           placeholder="Titulo"
           name="name"
@@ -130,6 +188,19 @@ function App() {
         />
         <span className="popup__error popup__error_type_link"></span>
       </PopupWithForm>
+      <PopupWithForm
+        title="¿Estás seguro/a?"
+        handleClose={closeAllPopups}
+        classId={"popup_confirmation"}
+        open={isPopupDeleteCard}
+        onSubmit={onSubmitDeleteCard}
+        buttonTitle="Si"
+      ></PopupWithForm>
+      <ImagePopup
+        classId={"popup_card"}
+        handleClose={closeAllPopups}
+        selectedCard={handleCardClick}
+      />
     </div>
   );
 }

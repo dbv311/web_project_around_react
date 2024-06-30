@@ -1,7 +1,7 @@
 export default function Card({
   name,
   link,
-  handleClick,
+  onCardClick,
   handleDeleteCard,
   handleDeleteLike,
   handleAddLike,
@@ -18,17 +18,22 @@ export default function Card({
     return owner._id === user._id;
   };
 
+  function handleClick() {
+    onCardClick();
+  }
+
   return (
     <div className="element">
       <div className="element__overlay"></div>
       <div className="element__picture">
-        <img alt={name} className="element__image" src={link} />
+        <img
+          alt={name}
+          className="element__image"
+          src={link}
+          onClick={handleClick}
+        />
         {isCardOwner() && (
-          <button
-            type="button"
-            id="trashicon"
-            className="element__button-trash"
-          ></button>
+          <button type="button" className="element__button-trash"></button>
         )}
       </div>
       <div className="element__info">
@@ -36,7 +41,9 @@ export default function Card({
         <div className="element__pic">
           <button
             type="button"
-            className={`element__button-like ${hasLikeUser() ? "si" : ""}`}
+            className={`element__button-like ${
+              hasLikeUser() ? "element__button-like_active" : ""
+            }`}
           ></button>
           <p className="element__counter">{likes.length}</p>
         </div>
