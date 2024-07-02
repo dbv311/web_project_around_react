@@ -11,7 +11,7 @@ function App() {
   const [isPopupAddPlace, setPopupAddPlace] = React.useState(false);
   const [isPopupEditAvatar, setPopupEditAvatar] = React.useState(false);
   const [isPopupDeleteCard, setPopupDeleteCard] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
@@ -53,7 +53,8 @@ function App() {
   };
 
   const onSubmitDeleteCard = (cardId) => {
-    return api.deleteCard(cardId).then(() => {
+    return api.deleteCard(cardId).then((user) => {
+      setCurrentUser(user);
       setPopupDeleteCard(true);
     });
   };
@@ -199,7 +200,6 @@ function App() {
       <ImagePopup
         classId={"popup_card"}
         handleClose={closeAllPopups}
-        selectedCard={handleCardClick}
         open={selectedCard}
       />
     </div>

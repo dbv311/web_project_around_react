@@ -12,7 +12,8 @@ function Main({
   cards,
   currentUser,
   handleAddPlace,
-  handleCardClick,
+  onCardClick,
+  handleDeleteCard,
 }) {
   return (
     <main className="main">
@@ -51,10 +52,9 @@ function Main({
             _id={item._id}
             likes={item.likes}
             owner={item.owner}
-            onCardClick={item.onCardClick}
           />
         ))}
-        <ImagePopup selectedCard={handleCardClick} />
+        <ImagePopup onClick={onCardClick} />
       </section>
     </main>
   );

@@ -1,9 +1,4 @@
-export default function ImagePopup({
-  classId,
-  open,
-  selectedCard,
-  handleClose,
-}) {
+export default function ImagePopup({ classId, open, handleClose }) {
   return (
     <div className={`popup ${classId} ${open ? "popup_open" : ""}`}>
       <div className="popup__overlay"></div>
@@ -13,12 +8,7 @@ export default function ImagePopup({
           onClick={handleClose}
           className="popup__close-icon"
         ></button>
-        <img
-          className="popup__image"
-          src={""}
-          alt={""}
-          onClick={selectedCard}
-        />
+        <img className="popup__image" src={""} alt={""} />
         <p className="popup__title"></p>
       </div>
     </div>
