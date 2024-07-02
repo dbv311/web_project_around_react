@@ -1,5 +1,3 @@
-import ImagePopup from "./ImagePopup";
-
 export default function Card({
   name,
   link,
@@ -11,7 +9,6 @@ export default function Card({
   _id,
   owner,
   user,
-  props,
 }) {
   const hasLikeUser = () => {
     return likes.some((like) => like._id === user._id);
@@ -21,9 +18,13 @@ export default function Card({
     return owner._id === user._id;
   };
 
-  function handleClick() {
-    props.onCardClick(props.card);
-  }
+  const handleClick = () => {
+    handleCardClick({ name, link, _id });
+  };
+
+  const onDeleteCard = () => {
+    handleDeleteCard({ _id });
+  };
 
   return (
     <div className="element">
@@ -36,14 +37,17 @@ export default function Card({
           onClick={handleClick}
         />
         {isCardOwner() && (
-          <button type="button" className="element__button-trash"></button>
+          <button
+            type="button"
+            className="element__button-trash"
+            onClick={onDeleteCard}
+          ></button>
         )}
       </div>
       <div className="element__info">
         <p className="element__text">{name}</p>
         <div className="element__pic">
           <button
-            onClick={handleDeleteCard}
             type="button"
             className={`element__button-like ${
               hasLikeUser() ? "element__button-like_active" : ""

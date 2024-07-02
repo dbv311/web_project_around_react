@@ -4,7 +4,6 @@ import "../blocks/popup.css";
 import "../blocks/elements.css";
 import "../blocks/element.css";
 import Card from "./Card";
-import ImagePopup from "./ImagePopup";
 
 function Main({
   handleEditAvatar,
@@ -12,7 +11,7 @@ function Main({
   cards,
   currentUser,
   handleAddPlace,
-  onCardClick,
+  handleCardClick,
   handleDeleteCard,
 }) {
   return (
@@ -52,9 +51,10 @@ function Main({
             _id={item._id}
             likes={item.likes}
             owner={item.owner}
+            handleCardClick={handleCardClick}
+            handleDeleteCard={handleDeleteCard}
           />
         ))}
-        <ImagePopup onClick={onCardClick} />
       </section>
     </main>
   );

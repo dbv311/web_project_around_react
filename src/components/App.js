@@ -11,6 +11,7 @@ function App() {
   const [isPopupAddPlace, setPopupAddPlace] = React.useState(false);
   const [isPopupEditAvatar, setPopupEditAvatar] = React.useState(false);
   const [isPopupDeleteCard, setPopupDeleteCard] = React.useState(false);
+  const [isPopupImageOpen, setPopupImageOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
 
   const [currentUser, setCurrentUser] = React.useState({});
@@ -20,8 +21,8 @@ function App() {
     setPopupProfileOpen(false);
     setPopupAddPlace(false);
     setPopupEditAvatar(false);
+    setPopupImageOpen(false);
     setPopupDeleteCard(false);
-    setSelectedCard(false);
     document.removeEventListener("keypress", handleEscPress);
   };
 
@@ -42,41 +43,43 @@ function App() {
     addHandleEscPress();
   };
 
-  const handleDeleteCard = () => {
+  const handleDeleteCard = (card) => {
+    setSelectedCard(card);
     setPopupDeleteCard(true);
     addHandleEscPress();
   };
 
-  const handleCardClick = () => {
-    setSelectedCard(true);
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+    setPopupImageOpen(true);
     addHandleEscPress();
   };
 
-  const onSubmitDeleteCard = (cardId) => {
-    return api.deleteCard(cardId).then((user) => {
-      setCurrentUser(user);
-      setPopupDeleteCard(true);
+  const onSubmitDeleteCard = () => {
+    return api.deleteCard(selectedCard._id).then(() => {
+      closeAllPopups();
+      setCards(cards.filter((card) => card._id !== selectedCard._id));
     });
   };
 
   const onSubmitEditProfile = ({ name, about }) => {
     return api.updateUser(name, about).then((user) => {
       setCurrentUser(user);
-      setPopupProfileOpen(false);
+      closeAllPopups();
     });
   };
 
   const onSubmitAddPlace = ({ name, link }) => {
     return api.postCards(name, link).then((card) => {
       setCards([card, ...cards]);
-      setPopupAddPlace(false);
+      closeAllPopups();
     });
   };
 
   const onSubmitEditAvatar = ({ avatar }) => {
     return api.updateAvatar(avatar).then((user) => {
       setCurrentUser(user);
-      setPopupEditAvatar(false);
+      closeAllPopups();
     });
   };
 
@@ -200,7 +203,8 @@ function App() {
       <ImagePopup
         classId={"popup_card"}
         handleClose={closeAllPopups}
-        open={selectedCard}
+        selectedCard={selectedCard}
+        open={isPopupImageOpen}
       />
     </div>
   );
