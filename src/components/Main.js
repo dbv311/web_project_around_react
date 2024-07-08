@@ -13,6 +13,7 @@ function Main({
   handleAddPlace,
   handleCardClick,
   handleDeleteCard,
+  handleCardLike,
 }) {
   return (
     <main className="main">

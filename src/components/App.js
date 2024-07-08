@@ -5,6 +5,7 @@ import PopupWithForm from "./PopupWithForm";
 import React from "react";
 import { api } from "../utils/api";
 import ImagePopup from "./ImagePopup";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function App() {
   const [isPopupProfileOpen, setPopupProfileOpen] = React.useState(false);
@@ -104,108 +105,110 @@ function App() {
 
   return (
     <div className="page">
-      <Header />
-      <Main
-        handleEditAvatar={handleEditAvatar}
-        handleEditProfile={handleEditProfile}
-        handleAddPlace={handleAddPlace}
-        handleDeleteCard={handleDeleteCard}
-        handleCardClick={handleCardClick}
-        cards={cards}
-        currentUser={currentUser}
-      />
-      <Footer />
-      <PopupWithForm
-        title="Cambiar foto de perfil"
-        handleClose={closeAllPopups}
-        classId={"popup_avatar"}
-        open={isPopupEditAvatar}
-        onSubmit={onSubmitEditAvatar}
-        buttonTitle="Guardar"
-      >
-        <input
-          type="url"
-          className="popup__input popup__input-avatar"
-          placeholder="Enlace a la imagen"
-          name="avatar"
-          required
+      <CurrentUserContext.Provider>
+        <Header />
+        <Main
+          handleEditAvatar={handleEditAvatar}
+          handleEditProfile={handleEditProfile}
+          handleAddPlace={handleAddPlace}
+          handleDeleteCard={handleDeleteCard}
+          handleCardClick={handleCardClick}
+          cards={cards}
+          currentUser={currentUser}
         />
-        <span className="popup__error popup__error_type_link"></span>
-      </PopupWithForm>
-      <PopupWithForm
-        title="Editar Perfil"
-        handleClose={closeAllPopups}
-        classId={"popup_profile"}
-        open={isPopupProfileOpen}
-        onSubmit={onSubmitEditProfile}
-        buttonTitle="Guardar"
-      >
-        <>
+        <Footer />
+        <PopupWithForm
+          title="Cambiar foto de perfil"
+          handleClose={closeAllPopups}
+          classId={"popup_avatar"}
+          open={isPopupEditAvatar}
+          onSubmit={onSubmitEditAvatar}
+          buttonTitle="Guardar"
+        >
+          <input
+            type="url"
+            className="popup__input popup__input-avatar"
+            placeholder="Enlace a la imagen"
+            name="avatar"
+            required
+          />
+          <span className="popup__error popup__error_type_link"></span>
+        </PopupWithForm>
+        <PopupWithForm
+          title="Editar Perfil"
+          handleClose={closeAllPopups}
+          classId={"popup_profile"}
+          open={isPopupProfileOpen}
+          onSubmit={onSubmitEditProfile}
+          buttonTitle="Guardar"
+        >
+          <>
+            <input
+              type="text"
+              minLength="2"
+              maxLength="40"
+              className="popup__input popup__input-name"
+              placeholder="Nombre"
+              defaultValue="Jacques Cousteau"
+              name="name"
+              required
+            />
+            <span className="popup__error popup__error_type_name"></span>
+            <input
+              type="text"
+              minLength="2"
+              maxLength="200"
+              className="popup__input popup__input-about"
+              placeholder="Acerca de mi"
+              defaultValue="Explorador"
+              name="about"
+              required
+            />
+            <span className="popup__error popup__error_type_about"></span>
+          </>
+        </PopupWithForm>
+        <PopupWithForm
+          title="Nuevo Lugar"
+          handleClose={closeAllPopups}
+          classId={"popup_place"}
+          open={isPopupAddPlace}
+          onSubmit={onSubmitAddPlace}
+          buttonTitle="Guardar"
+        >
           <input
             type="text"
             minLength="2"
-            maxLength="40"
-            className="popup__input popup__input-name"
-            placeholder="Nombre"
-            defaultValue="Jacques Cousteau"
+            maxLength="30"
+            className="popup__input popup__input-place"
+            placeholder="Titulo"
             name="name"
             required
           />
-          <span className="popup__error popup__error_type_name"></span>
+          <span className="popup__error popup__error_type_place"></span>
           <input
-            type="text"
-            minLength="2"
-            maxLength="200"
-            className="popup__input popup__input-about"
-            placeholder="Acerca de mi"
-            defaultValue="Explorador"
-            name="about"
+            type="url"
+            className="popup__input popup__input-link"
+            placeholder="Enlace a la imagen"
+            name="link"
             required
           />
-          <span className="popup__error popup__error_type_about"></span>
-        </>
-      </PopupWithForm>
-      <PopupWithForm
-        title="Nuevo Lugar"
-        handleClose={closeAllPopups}
-        classId={"popup_place"}
-        open={isPopupAddPlace}
-        onSubmit={onSubmitAddPlace}
-        buttonTitle="Guardar"
-      >
-        <input
-          type="text"
-          minLength="2"
-          maxLength="30"
-          className="popup__input popup__input-place"
-          placeholder="Titulo"
-          name="name"
-          required
+          <span className="popup__error popup__error_type_link"></span>
+        </PopupWithForm>
+        <PopupWithForm
+          title="¿Estás seguro/a?"
+          handleClose={closeAllPopups}
+          classId={"popup_confirmation"}
+          open={isPopupDeleteCard}
+          onSubmit={onSubmitDeleteCard}
+          buttonTitle="Si"
+        ></PopupWithForm>
+        <ImagePopup
+          classId={"popup_card"}
+          handleClose={closeAllPopups}
+          selectedCard={selectedCard}
+          open={isPopupImageOpen}
         />
-        <span className="popup__error popup__error_type_place"></span>
-        <input
-          type="url"
-          className="popup__input popup__input-link"
-          placeholder="Enlace a la imagen"
-          name="link"
-          required
-        />
-        <span className="popup__error popup__error_type_link"></span>
-      </PopupWithForm>
-      <PopupWithForm
-        title="¿Estás seguro/a?"
-        handleClose={closeAllPopups}
-        classId={"popup_confirmation"}
-        open={isPopupDeleteCard}
-        onSubmit={onSubmitDeleteCard}
-        buttonTitle="Si"
-      ></PopupWithForm>
-      <ImagePopup
-        classId={"popup_card"}
-        handleClose={closeAllPopups}
-        selectedCard={selectedCard}
-        open={isPopupImageOpen}
-      />
+      </CurrentUserContext.Provider>
     </div>
   );
 }

@@ -4,7 +4,7 @@ export default function Card({
   handleCardClick,
   handleDeleteCard,
   handleDeleteLike,
-  handleAddLike,
+  handleLike,
   likes,
   _id,
   owner,
@@ -24,6 +24,13 @@ export default function Card({
 
   const onDeleteCard = () => {
     handleDeleteCard({ _id });
+  };
+
+  const handleCardLike = () => {
+    handleLike();
+    /*const hasLikeUser = () => {
+      return likes.some((like) => like._id === user._id);
+    };*/
   };
 
   return (
@@ -50,8 +57,9 @@ export default function Card({
           <button
             type="button"
             className={`element__button-like ${
-              hasLikeUser() ? "element__button-like_active" : ""
+              hasLikeUser() ? "element__button-like_active" : " "
             }`}
+            onClick={handleCardLike}
           ></button>
           <p className="element__counter">{likes.length}</p>
         </div>
