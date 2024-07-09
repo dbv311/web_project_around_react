@@ -54,6 +54,7 @@ function Main({
             owner={item.owner}
             handleCardClick={handleCardClick}
             handleDeleteCard={handleDeleteCard}
+            handleCardLike={handleCardLike}
           />
         ))}
       </section>

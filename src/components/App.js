@@ -14,6 +14,7 @@ function App() {
   const [isPopupDeleteCard, setPopupDeleteCard] = React.useState(false);
   const [isPopupImageOpen, setPopupImageOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
+  const [isCardLike, setCardLike] = React.useState(false);
 
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
@@ -53,6 +54,12 @@ function App() {
   const handleCardClick = (card) => {
     setSelectedCard(card);
     setPopupImageOpen(true);
+    addHandleEscPress();
+  };
+
+  const handleCardLike = (_id) => {
+    setSelectedCard(_id);
+    setCardLike(true);
     addHandleEscPress();
   };
 
@@ -105,7 +112,7 @@ function App() {
 
   return (
     <div className="page">
-      <CurrentUserContext.Provider>
+      <CurrentUserContext.Provider value={currentUser}>
         <Header />
         <Main
           handleEditAvatar={handleEditAvatar}
@@ -113,6 +120,7 @@ function App() {
           handleAddPlace={handleAddPlace}
           handleDeleteCard={handleDeleteCard}
           handleCardClick={handleCardClick}
+          handleCardLike={handleCardLike}
           cards={cards}
           currentUser={currentUser}
         />
