@@ -7,6 +7,8 @@ import { api } from "../utils/api";
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
   const [isPopupProfileOpen, setPopupProfileOpen] = React.useState(false);
@@ -134,57 +136,21 @@ function App() {
           cards={cards}
         />
         <Footer />
-        <PopupWithForm
-          title="Cambiar foto de perfil"
+        <EditAvatarPopup
           handleClose={closeAllPopups}
-          classId={"popup_avatar"}
           open={isPopupEditAvatar}
           onSubmit={onSubmitEditAvatar}
-          buttonTitle="Guardar"
-        >
-          <input
-            type="url"
-            className="popup__input popup__input-avatar"
-            placeholder="Enlace a la imagen"
-            name="avatar"
-            required
-          />
-          <span className="popup__error popup__error_type_link"></span>
-        </PopupWithForm>
-
+        />
         <EditProfilePopup
           handleClose={closeAllPopups}
           open={isPopupProfileOpen}
           onSubmit={onSubmitEditProfile}
         />
-
-        <PopupWithForm
-          title="Nuevo Lugar"
+        <AddPlacePopup
           handleClose={closeAllPopups}
-          classId={"popup_place"}
           open={isPopupAddPlace}
           onSubmit={onSubmitAddPlace}
-          buttonTitle="Guardar"
-        >
-          <input
-            type="text"
-            minLength="2"
-            maxLength="30"
-            className="popup__input popup__input-place"
-            placeholder="Titulo"
-            name="name"
-            required
-          />
-          <span className="popup__error popup__error_type_place"></span>
-          <input
-            type="url"
-            className="popup__input popup__input-link"
-            placeholder="Enlace a la imagen"
-            name="link"
-            required
-          />
-          <span className="popup__error popup__error_type_link"></span>
-        </PopupWithForm>
+        />
         <PopupWithForm
           title="¿Estás seguro/a?"
           handleClose={closeAllPopups}
