@@ -112,7 +112,6 @@ function App() {
       closeAllPopups();
     }
   };
-
   React.useEffect(() => {
     api.getUserInfo().then((user) => {
       setCurrentUser(user);
