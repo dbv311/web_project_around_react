@@ -1,15 +1,18 @@
+import React from "react";
+import CurrentUserContext from "../contexts/CurrentUserContext";
+
 export default function Card({
   name,
   link,
   handleCardClick,
   handleDeleteCard,
-  handleDeleteLike,
   handleCardLike,
   likes,
   _id,
   owner,
-  user,
 }) {
+  const user = React.useContext(CurrentUserContext);
+
   const hasLikeUser = () => {
     return likes.some((like) => like._id === user._id);
   };
@@ -26,9 +29,9 @@ export default function Card({
     handleDeleteCard({ _id });
   };
 
-  const handleLike = () => {
-    handleCardLike({ _id });
-  };
+  function handleLike() {
+    handleCardLike({ _id }, hasLikeUser());
+  }
 
   return (
     <div className="element">
@@ -53,10 +56,10 @@ export default function Card({
         <div className="element__pic">
           <button
             type="button"
+            onClick={handleLike}
             className={`element__button-like ${
               hasLikeUser() ? "element__button-like_active" : " "
             }`}
-            onClick={handleLike}
           ></button>
           <p className="element__counter">{likes.length}</p>
         </div>

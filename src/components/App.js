@@ -6,6 +6,7 @@ import React from "react";
 import { api } from "../utils/api";
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [isPopupProfileOpen, setPopupProfileOpen] = React.useState(false);
@@ -14,7 +15,6 @@ function App() {
   const [isPopupDeleteCard, setPopupDeleteCard] = React.useState(false);
   const [isPopupImageOpen, setPopupImageOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
-  const [isCardLike, setCardLike] = React.useState(false);
 
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
@@ -57,10 +57,20 @@ function App() {
     addHandleEscPress();
   };
 
-  const handleCardLike = (_id) => {
-    setSelectedCard(_id);
-    setCardLike(true);
-    addHandleEscPress();
+  const handleCardLike = (card, removeLike) => {
+    if (removeLike) {
+      return api.deleteLike(card._id).then(() => {
+        api.getCards().then((cardsData) => {
+          setCards(cardsData);
+        });
+      });
+    } else {
+      return api.putLike(card._id).then(() => {
+        api.getCards().then((cardsData) => {
+          setCards(cardsData);
+        });
+      });
+    }
   };
 
   const onSubmitDeleteCard = () => {
@@ -122,7 +132,6 @@ function App() {
           handleCardClick={handleCardClick}
           handleCardLike={handleCardLike}
           cards={cards}
-          currentUser={currentUser}
         />
         <Footer />
         <PopupWithForm
@@ -142,39 +151,13 @@ function App() {
           />
           <span className="popup__error popup__error_type_link"></span>
         </PopupWithForm>
-        <PopupWithForm
-          title="Editar Perfil"
+
+        <EditProfilePopup
           handleClose={closeAllPopups}
-          classId={"popup_profile"}
           open={isPopupProfileOpen}
           onSubmit={onSubmitEditProfile}
-          buttonTitle="Guardar"
-        >
-          <>
-            <input
-              type="text"
-              minLength="2"
-              maxLength="40"
-              className="popup__input popup__input-name"
-              placeholder="Nombre"
-              defaultValue="Jacques Cousteau"
-              name="name"
-              required
-            />
-            <span className="popup__error popup__error_type_name"></span>
-            <input
-              type="text"
-              minLength="2"
-              maxLength="200"
-              className="popup__input popup__input-about"
-              placeholder="Acerca de mi"
-              defaultValue="Explorador"
-              name="about"
-              required
-            />
-            <span className="popup__error popup__error_type_about"></span>
-          </>
-        </PopupWithForm>
+        />
+
         <PopupWithForm
           title="Nuevo Lugar"
           handleClose={closeAllPopups}

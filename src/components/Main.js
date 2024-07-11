@@ -4,17 +4,20 @@ import "../blocks/popup.css";
 import "../blocks/elements.css";
 import "../blocks/element.css";
 import Card from "./Card";
+import CurrentUserContext from "../contexts/CurrentUserContext";
+import React from "react";
 
 function Main({
   handleEditAvatar,
   handleEditProfile,
   cards,
-  currentUser,
   handleAddPlace,
   handleCardClick,
   handleDeleteCard,
   handleCardLike,
 }) {
+  const currentUser = React.useContext(CurrentUserContext);
+
   return (
     <main className="main">
       <section className="profile">
@@ -48,7 +51,6 @@ function Main({
             key={index}
             name={item.name}
             link={item.link}
-            user={currentUser}
             _id={item._id}
             likes={item.likes}
             owner={item.owner}

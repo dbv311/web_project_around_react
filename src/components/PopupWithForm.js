@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function PopupWithForm({
   open,
   handleClose,
@@ -7,11 +9,13 @@ export default function PopupWithForm({
   onSubmit,
   buttonTitle,
 }) {
+  const formRef = React.useRef();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const inputValues = getInputValues(event.target);
+    const inputValues = getInputValues(formRef.current);
     onSubmit(inputValues).then(() => {
-      event.target.reset();
+      formRef.current.reset();
     });
   };
 
@@ -30,7 +34,7 @@ export default function PopupWithForm({
     <div className={`popup ${classId} ${open ? "popup_open" : ""}`}>
       <div className="popup__overlay"></div>
       <div className="popup__content">
-        <form className="popup__form" onSubmit={handleSubmit}>
+        <form className="popup__form" ref={formRef} onSubmit={handleSubmit}>
           <button
             type="button"
             onClick={handleClose}
