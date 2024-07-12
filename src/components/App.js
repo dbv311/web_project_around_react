@@ -33,8 +33,6 @@ function App() {
   const handleEditProfile = () => {
     setPopupProfileOpen(true);
     addHandleEscPress();
-    document.querySelector(".popup__input-name").value = currentUser.name;
-    document.querySelector(".popup__input-about").value = currentUser.about;
   };
 
   const handleAddPlace = () => {
@@ -138,12 +136,12 @@ function App() {
         <EditAvatarPopup
           handleClose={closeAllPopups}
           open={isPopupEditAvatar}
-          onSubmit={onSubmitEditAvatar}
+          onUpdateAvatar={onSubmitEditAvatar}
         />
         <EditProfilePopup
           handleClose={closeAllPopups}
           open={isPopupProfileOpen}
-          onSubmit={onSubmitEditProfile}
+          onUpdateUser={onSubmitEditProfile}
         />
         <AddPlacePopup
           handleClose={closeAllPopups}

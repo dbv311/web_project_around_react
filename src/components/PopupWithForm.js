@@ -9,32 +9,11 @@ export default function PopupWithForm({
   onSubmit,
   buttonTitle,
 }) {
-  const formRef = React.useRef();
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const inputValues = getInputValues(formRef.current);
-    onSubmit(inputValues).then(() => {
-      formRef.current.reset();
-    });
-  };
-
-  const getInputValues = (form) => {
-    const inputValues = {};
-    const inputForms = Array.from(form.elements);
-    inputForms.forEach((element) => {
-      if (element.name) {
-        inputValues[element.name] = element.value;
-      }
-    });
-    return inputValues;
-  };
-
   return (
     <div className={`popup ${classId} ${open ? "popup_open" : ""}`}>
       <div className="popup__overlay"></div>
       <div className="popup__content">
-        <form className="popup__form" ref={formRef} onSubmit={handleSubmit}>
+        <form className="popup__form" onSubmit={onSubmit}>
           <button
             type="button"
             onClick={handleClose}
